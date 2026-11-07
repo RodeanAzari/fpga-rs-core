@@ -7,9 +7,9 @@ A parameterized Reed-Solomon decoder in SystemVerilog, verified at two parameter
 | RS(255,223), t = 16 | GF(2⁸) | x⁸+x⁷+x²+x+1 (0x187) | α^(11j), j = 112..143 | CCSDS 131.0-B (conventional basis) |
 | RS(544,514), t = 15, shortened | GF(2¹⁰) | x¹⁰+x³+1 (0x409) | α^j, j = 0..29 | IEEE 802.3 KP4 FEC |
 
-**Status: RTL complete, not yet released.** `rs_decoder` passes both vector suites in simulation, sustaining one symbol
-per clock with no stall between codewords, and meets 100 MHz on an Artix-7 at both parameter sets. The first release
-will be tag `rs-core-v1.0`.
+**Status: released, tag `rs-core-v1.0`** ([CHANGELOG](CHANGELOG.md)). `rs_decoder` passes both vector suites in
+simulation, sustaining one symbol per clock with no stall between codewords, and meets 100 MHz on an Artix-7 at both
+parameter sets. Not yet run on hardware. Consume it as a git submodule checked out at the tag.
 
 ## Parameters
 

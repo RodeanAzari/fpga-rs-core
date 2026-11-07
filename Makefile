@@ -22,6 +22,8 @@ lint:
 	$(LINT) rtl/rs_ribm.sv --top-module rs_ribm $(KP4_FIELD)
 	$(LINT) rtl/rs_chien_forney.sv --top-module rs_chien_forney
 	$(LINT) rtl/rs_chien_forney.sv --top-module rs_chien_forney $(KP4_ALL)
+	$(LINT) rtl/rs_syndrome.sv rtl/rs_ribm.sv rtl/rs_chien_forney.sv rtl/rs_decoder.sv --top-module rs_decoder
+	$(LINT) rtl/rs_syndrome.sv rtl/rs_ribm.sv rtl/rs_chien_forney.sv rtl/rs_decoder.sv --top-module rs_decoder $(KP4_ALL)
 
 lint-py:
 	$(PY) -m ruff check model tb

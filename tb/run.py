@@ -25,6 +25,11 @@ TESTS: dict[str, tuple[str, list[str], tuple[str, ...]]] = {
     "test_rs_syndrome": ("rs_syndrome", [*PKG, "rtl/rs_syndrome.sv"], ALL_PARAMS),
     "test_rs_ribm": ("rs_ribm", [*PKG, "rtl/rs_ribm.sv"], ("M", "PRIM_POLY", "NROOTS")),
     "test_rs_chien_forney": ("rs_chien_forney", [*PKG, "rtl/rs_chien_forney.sv"], ALL_PARAMS),
+    "test_rs_decoder": (
+        "rs_decoder",
+        [*PKG, *(f"rtl/{m}.sv" for m in ("rs_syndrome", "rs_ribm", "rs_chien_forney", "rs_decoder"))],
+        ALL_PARAMS,
+    ),
 }
 
 

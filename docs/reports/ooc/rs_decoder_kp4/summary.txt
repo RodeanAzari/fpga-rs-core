@@ -1,0 +1,6 @@
+top rs_decoder
+generics M=10 PRIM_POLY=1033 FCR=0 PRIM=1 NROOTS=30 N=544
+part xc7a100tcsg324-1
+vivado 2025.2
+clk_mhz 100
+wns_ns 1.168

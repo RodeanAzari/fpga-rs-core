@@ -1,0 +1,33 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
+| Date         : Sat Nov  7 16:55:33 2026
+| Host         : RodeanStation running 64-bit Ubuntu 26.04 LTS
+| Command      : report_utilization -hierarchical -file /home/rodea/fpga-rs-core/docs/reports/ooc/rs_decoder_ccsds/utilization_hier.rpt
+| Design       : rs_decoder
+| Device       : xc7a100tcsg324-1
+| Speed File   : -1
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++----------------+-----------------+------------+------------+---------+------+------+--------+--------+------------+
+|    Instance    |      Module     | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
++----------------+-----------------+------------+------------+---------+------+------+--------+--------+------------+
+| rs_decoder     |           (top) |       4142 |       4121 |      20 |    1 | 1766 |      0 |      3 |          0 |
+|   (rs_decoder) |           (top) |         79 |         59 |      20 |    0 |   93 |      0 |      2 |          0 |
+|   u_chien      | rs_chien_forney |        315 |        314 |       0 |    1 |  335 |      0 |      1 |          0 |
+|   u_ribm       |         rs_ribm |       3401 |       3401 |       0 |    0 |  817 |      0 |      0 |          0 |
+|   u_syndrome   |     rs_syndrome |        350 |        350 |       0 |    0 |  521 |      0 |      0 |          0 |
++----------------+-----------------+------------+------------+---------+------+------+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+

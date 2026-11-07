@@ -65,4 +65,11 @@ Four stages, each owning one codeword at a time:
 
 - Forney exponent −(FCR + 2t): fitted on reference error values at both parameter sets; `model/hw.py` decodes the
   whole suite identically to `model/rs.py` (`model/tests/test_hw.py`).
-- Area, Fmax, throughput: `[TBD]` (RTL not written yet).
+- Throughput: 12 codewords back to back with no input stall and no output gap, both parameter sets
+  (`tb/test_rs_decoder.py::one_symbol_per_clock_sustained`).
+- Vivado 2025.2 OOC place and route, xc7a100tcsg324-1 at 100 MHz (`docs/reports/ooc/`):
+
+  | Parameter set | WNS | LUT | FF | BRAM36 | DSP |
+  |---|---|---|---|---|---|
+  | CCSDS RS(255,223) | +1.457 ns | 4,142 | 1,766 | 1.5 | 0 |
+  | KP4 RS(544,514) | +1.168 ns | 5,558 | 2,066 | 3.5 | 0 |

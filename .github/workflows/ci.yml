@@ -1,0 +1,61 @@
+name: CI
+
+# Everything `make ci` covers (ruff, mypy, Verilator lint at both parameter sets, model tests against reedsolo,
+# cocotb at CCSDS and KP4), on every push. Vivado stays local; its reports are committed with the RTL.
+
+on:
+  push:
+  pull_request:
+
+env:
+  # cocotb 2.x needs Verilator >= 5.036, newer than any apt package: built from source, cached on this key.
+  VERILATOR_VERSION: v5.050
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+    # Same distribution as the development machine (WSL Ubuntu 26.04, Python 3.14).
+    container: ubuntu:26.04
+    steps:
+      - name: Install system packages
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            ca-certificates git make python3 python3-venv python3-dev g++ \
+            autoconf bison flex help2man libfl-dev perl zlib1g-dev zstd
+
+      - uses: actions/checkout@v4
+
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Cache Verilator
+        id: cache-verilator
+        uses: actions/cache@v4
+        with:
+          path: ~/verilator-install
+          key: verilator-ubuntu-26.04-${{ env.VERILATOR_VERSION }}
+
+      - name: Build Verilator
+        if: steps.cache-verilator.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch "$VERILATOR_VERSION" https://github.com/verilator/verilator.git /tmp/verilator
+          cd /tmp/verilator
+          autoconf
+          ./configure --prefix="$HOME/verilator-install"
+          make -j"$(nproc)"
+          make install
+
+      - name: Put Verilator on PATH
+        run: echo "$HOME/verilator-install/bin" >> "$GITHUB_PATH"
+
+      - name: Report tool versions
+        run: |
+          verilator --version
+          python3 --version
+
+      - name: Set up Python environment
+        run: make setup
+
+      - name: make ci
+        run: make ci

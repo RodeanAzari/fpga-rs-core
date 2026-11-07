@@ -5,3 +5,5 @@ mypy==2.4.1
 cocotb==2.1.0
 # Independent reference for the vector suites (test-only): a second RS implementation, not ours.
 reedsolo==1.7.0
+# P2 shared testbench helpers, at a release tag only (fpga-coord gate tb-common-v0.1)
+tb-common @ git+https://github.com/RodeanAzari/tb-common.git@tb-common-v0.1

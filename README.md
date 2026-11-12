@@ -58,10 +58,19 @@ A codeword with more than t errors comes out unchanged, with its fail flag set. 
   planted bugs (off-by-one positions, wrong constants, unclaimed results overwritten, buffer limits, failure
   pass-through).
 
+- SymbiYosys (`make formal`, 76 s): `rs_syndrome` against the syndrome's definition, written in GF arithmetic
+  independent of `rs_gf_pkg`. It is proven unbounded for every symbol sequence and handshake interleaving at three
+  small parameter sets: GF(16) full length; GF(16) shortened with FCR 5 and PRIM 7 (the CCSDS structure); and
+  GF(8). The properties are the syndromes, `sym_last_o`, `sym_ready_o` (it stalls only a last symbol that would
+  overwrite unclaimed syndromes) and `synd_valid_o`. A cover task shows two codewords back to back. Six planted bugs
+  each fail it with a trace from reset: root exponent off by one, no reload at position 0, ready ignoring the
+  claim, set/clear order of `synd_valid_o`, the last position one early, and a wrong reduction in `gf_mul`.
+
 ```
 make setup   # venv + pinned requirements
 make ci      # lint (both parameter sets) + model tests + cocotb
 make synth   # Vivado OOC place and route at 100 MHz, both parameter sets (local)
+make formal  # SymbiYosys: rs_syndrome at three small parameter sets (local, oss-cad-suite)
 ```
 
 ## Used by

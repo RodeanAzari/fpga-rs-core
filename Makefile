@@ -6,7 +6,7 @@ KP4_FIELD := -GM=10 -GPRIM_POLY=1033 -GNROOTS=30
 KP4_ALL := $(KP4_FIELD) -GFCR=0 -GPRIM=1 -GN=544
 LINT := verilator --lint-only -Wall $(PKG)
 
-.PHONY: setup model-test lint lint-py sim ci synth synth-ooc clean
+.PHONY: setup model-test lint lint-py sim ci synth synth-ooc formal clean
 
 setup:
 	python3 -m venv .venv
@@ -33,6 +33,13 @@ sim:
 	$(PY) tb/run.py
 
 ci: lint-py lint model-test sim
+
+# SymbiYosys with yosys-slang (oss-cad-suite), 76 s: rs_syndrome at three small parameter sets (tb/formal/rs_syndrome.sby).
+formal:
+	mkdir -p build/formal
+	cd tb/formal && sby -f -j 4 --prefix ../../build/formal/rs_syndrome rs_syndrome.sby \
+		> ../../build/formal/rs_syndrome.log 2>&1 || { grep -E 'summary|DONE|ERROR' ../../build/formal/rs_syndrome.log | tail -20; exit 1; }
+	@grep -E 'DONE' build/formal/rs_syndrome.log
 
 clean:
 	rm -rf build sim_build .pytest_cache .mypy_cache .ruff_cache

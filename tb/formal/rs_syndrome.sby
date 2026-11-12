@@ -1,0 +1,34 @@
+# rs_syndrome on small parameter sets (fpga-rs-core; the CCSDS project's buildplan §8.3), against the syndrome
+# definition in tb/formal/rs_syndrome_fv.sv. Proven unbounded (k-induction) per set; cover shows two codewords back
+# to back with the first claimed as the second's last symbol arrives.
+#   gf16        GF(2^4), x^4 + x + 1, FCR 0, PRIM 1, 2t = 4, N = 15 (full length)
+#   gf16_short  same field, FCR 5, PRIM 7, 2t = 4, N = 10 (shortened, beta != alpha: the CCSDS structure)
+#   gf8         GF(2^3), x^3 + x + 1, FCR 1, PRIM 3, 2t = 2, N = 7
+# Read with yosys-slang (rs_gf_pkg uses `return` and longint).
+[tasks]
+gf16 prove_t
+gf16_short prove_t
+gf8 prove_t
+cover_gf16 cover_t
+
+[options]
+prove_t: mode prove
+prove_t: depth 34
+cover_t: mode cover
+cover_t: depth 40
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+plugin -i slang
+gf16:       read_slang --top rs_syndrome_fv -G M=4 -G PRIM_POLY=19 -G FCR=0 -G PRIM=1 -G NROOTS=4 -G N=15 rs_gf_pkg.sv rs_syndrome.sv rs_syndrome_fv.sv
+cover_gf16: read_slang --top rs_syndrome_fv -G M=4 -G PRIM_POLY=19 -G FCR=0 -G PRIM=1 -G NROOTS=4 -G N=15 rs_gf_pkg.sv rs_syndrome.sv rs_syndrome_fv.sv
+gf16_short: read_slang --top rs_syndrome_fv -G M=4 -G PRIM_POLY=19 -G FCR=5 -G PRIM=7 -G NROOTS=4 -G N=10 rs_gf_pkg.sv rs_syndrome.sv rs_syndrome_fv.sv
+gf8:        read_slang --top rs_syndrome_fv -G M=3 -G PRIM_POLY=11 -G FCR=1 -G PRIM=3 -G NROOTS=2 -G N=7 rs_gf_pkg.sv rs_syndrome.sv rs_syndrome_fv.sv
+prep
+
+[files]
+../../rtl/rs_gf_pkg.sv
+../../rtl/rs_syndrome.sv
+rs_syndrome_fv.sv

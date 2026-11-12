@@ -67,6 +67,7 @@ make synth   # Vivado OOC place and route at 100 MHz, both parameter sets (local
 ## Used by
 
 - [CCSDS satellite telemetry receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (CCSDS RS(255,223))
+- [serdes-lab](https://github.com/RodeanAzari/serdes-lab) at `rs-core-v1.0` (KP4 RS(544,514), GF(2^10), 0x409)
 
 ## License
 
